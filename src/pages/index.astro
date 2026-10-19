@@ -22,17 +22,17 @@ const features = [
 ];
 
 const comparison = [
-  { label: "WebExtensions", upstream: "Off by default", fork: "On by default" },
-  { label: "Application ID", upstream: "org.gnome.Epiphany", fork: "com.sparkybin.Browser" },
-  { label: "Profile directory", upstream: "~/.local/share/epiphany", fork: "~/.local/share/com.sparkybin.Browser" },
-  { label: "Extension code", upstream: "As upstream", fork: "Audited and fixed" },
-  { label: "Icon and branding", upstream: "GNOME Web", fork: "SparkyBin" },
+  { label: "WebExtensions", upstream: "Off by default", ours: "On by default" },
+  { label: "Application ID", upstream: "org.gnome.Epiphany", ours: "com.sparkybin.Browser" },
+  { label: "Profile directory", upstream: "~/.local/share/epiphany", ours: "~/.local/share/com.sparkybin.Browser" },
+  { label: "Extension code", upstream: "As upstream", ours: "Audited and fixed" },
+  { label: "Icon and branding", upstream: "GNOME Web", ours: "SparkyBin" },
 ];
 ---
 
 <Base
   title="SparkyBin Browser — a web browser for Linux desktops"
-  description="SparkyBin Browser is a web browser for Linux desktops, built on WebKitGTK with GTK 4 and libadwaita. A fork of GNOME Web with WebExtensions enabled by default."
+  description="SparkyBin Browser is a web browser for Linux desktops, built on WebKitGTK with GTK 4 and libadwaita. WebExtensions enabled by default."
 >
   <!-- Hero -->
   <section class="relative overflow-hidden border-b border-rule">
@@ -44,7 +44,7 @@ const comparison = [
     </div>
 
     <div class="relative mx-auto max-w-6xl px-5 pt-20 pb-16 sm:px-8 sm:pt-28 sm:pb-20">
-      <p class="eyebrow">Version {release.version} · A fork of GNOME Web</p>
+      <p class="eyebrow">Version {release.version}</p>
 
       <h1 class="mt-5 max-w-3xl text-4xl leading-[1.08] font-semibold sm:text-6xl">
         A simple web browser for Linux desktops.
@@ -52,8 +52,9 @@ const comparison = [
 
       <p class="mt-6 max-w-2xl text-lg text-ink-soft sm:text-xl">
         SparkyBin Browser is built on WebKitGTK with GTK 4 and libadwaita. It is
-        GNOME Web with a different name, a different set of defaults, and the
-        extension code put through an audit.
+        a maintained build of GNOME Web: the same engine and the same
+        interface, with the extension support reworked and the rough edges
+        ironed out.
       </p>
 
       <div class="mt-9 flex flex-wrap items-center gap-3">
@@ -106,14 +107,14 @@ const comparison = [
     <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
       <div class="grid gap-10 lg:grid-cols-[minmax(0,22rem)_1fr] lg:gap-16">
         <div>
-          <p class="eyebrow">The fork</p>
+          <p class="eyebrow">Compared with upstream</p>
           <h2 class="mt-4 text-3xl font-semibold sm:text-4xl">
             What is different from GNOME Web
           </h2>
           <p class="mt-5 text-ink-soft">
-            GNOME Web is a fine browser, and it is where this one starts. The
-            differences are deliberate, and they are recorded in the NOTICE
-            file in the repository.
+            SparkyBin Browser is built on GNOME Web and stays in step with it
+            where it can. The differences below are deliberate, and the full
+            list is in the NOTICE file in the repository.
           </p>
           <a
             href="/about"
@@ -147,7 +148,7 @@ const comparison = [
                   </dd>
                   <dd class="font-mono text-xs font-medium text-ink">
                     <span class="text-ink-faint sm:hidden">SparkyBin: </span>
-                    {row.fork}
+                    {row.ours}
                   </dd>
                 </div>
               ))
@@ -224,9 +225,10 @@ const comparison = [
       <p class="mt-4 text-ink-soft">
         The source is on
         <a class="text-accent hover:underline" href={REPO_URL}>GitHub</a> under the
-        GNU GPL v3. The changes made to the code it was forked from are in
-        <a class="text-accent hover:underline" href={`${REPO_URL}/blob/main/NOTICE`}>NOTICE</a>,
-        and the browser it started as is
+        GNU GPL v3, and every change made to the browser it is built on is
+        recorded in
+        <a class="text-accent hover:underline" href={`${REPO_URL}/blob/main/NOTICE`}>NOTICE</a>.
+        The browser it is built on is
         <a class="text-accent hover:underline" href={UPSTREAM_URL}>GNOME Web</a>.
       </p>
     </div>

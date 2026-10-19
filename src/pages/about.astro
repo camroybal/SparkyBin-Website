@@ -10,10 +10,11 @@ import { REPO_URL, UPSTREAM_URL, ISSUES_URL } from "../lib/releases";
   <section class="border-b border-rule">
     <div class="mx-auto max-w-6xl px-5 pt-16 pb-14 sm:px-8 sm:pt-20">
       <p class="eyebrow">About</p>
-      <h1 class="mt-4 text-4xl font-semibold sm:text-5xl">A browser, forked</h1>
+      <h1 class="mt-4 text-4xl font-semibold sm:text-5xl">A browser, built well</h1>
       <p class="mt-5 max-w-2xl text-lg text-ink-soft">
-        SparkyBin Browser is GNOME Web with a different name, a different set
-        of defaults, and some fixes to the code that was causing trouble.
+        SparkyBin Browser is a maintained build of GNOME Web: the same engine
+        and the same interface, with the extension support reworked and the
+        rough edges ironed out.
       </p>
     </div>
   </section>
@@ -36,26 +37,31 @@ import { REPO_URL, UPSTREAM_URL, ISSUES_URL } from "../lib/releases";
       </div>
 
       <div>
-        <h2 class="font-display text-xl font-semibold text-ink">Where it came from</h2>
+        <h2 class="font-display text-xl font-semibold text-ink">Where it comes from</h2>
         <p class="mt-3">
-          GNOME Web is a good browser and a well-run project, and this one
-          starts from it. The fork was made because the WebExtension support
-          there was experimental: it was hidden behind a setting, and the code
-          behind it had a number of problems that turned up when an extension
-          was actually installed and used.
+          GNOME Web is a good browser and a well-run project, and this one is
+          built on it. Upstream, WebExtension support was experimental: it was
+          hidden behind a setting, and the code behind it had a number of
+          problems that turned up as soon as an extension was actually
+          installed and used.
         </p>
         <p class="mt-3">
-          The changes made to upstream are recorded in the
+          The work here is on the parts that needed it. Where a fix belongs
+          upstream, it is sent upstream; the changes made here are recorded in
+          the
           <a class="text-accent hover:underline" href={`${REPO_URL}/blob/main/NOTICE`}>NOTICE</a>
           file, as the GPL asks, and the original copyright notices are still
-          in the source. The project follows upstream where it can, and
+          in the source.
+        </p>
+        <p class="mt-3">
+          If none of the differences below matter to you,
           <a class="text-accent hover:underline" href={UPSTREAM_URL}>GNOME Web</a>
-          is worth using if none of the differences below matter to you.
+          is worth using.
         </p>
       </div>
 
       <div>
-        <h2 class="font-display text-xl font-semibold text-ink">What changed</h2>
+        <h2 class="font-display text-xl font-semibold text-ink">What we've changed</h2>
         <p class="mt-3">
           WebExtensions are on by default, and the Extensions page has a
           switch to turn them off again. The extension implementation was
@@ -86,8 +92,8 @@ import { REPO_URL, UPSTREAM_URL, ISSUES_URL } from "../lib/releases";
       <div>
         <h2 class="font-display text-xl font-semibold text-ink">Where it is going</h2>
         <p class="mt-3">
-          0.1 is the first release of the fork. It is a working browser with
-          the fixes in it, not a finished product, and the icon and the
+          0.1 is the first release of SparkyBin Browser. It is a working browser
+          with the fixes in it, not a finished product, and the icon and the
           screenshots are still placeholders. The plan for what comes next is
           in
           <a class="text-accent hover:underline" href={`${REPO_URL}/blob/main/PLAN.md`}>PLAN.md</a>

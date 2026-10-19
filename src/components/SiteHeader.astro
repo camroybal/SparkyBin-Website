@@ -1,5 +1,6 @@
 ---
 import { REPO_URL, ISSUES_URL } from "../lib/releases";
+import { PRODUCTS } from "../lib/products";
 
 const links = [
   { href: "/download", label: "Download" },
@@ -19,7 +20,7 @@ const path = Astro.url.pathname.replace(/\/$/, "") || "/";
         class="grid size-7 place-items-center rounded-[7px] bg-ink text-[0.7rem] font-bold text-bg"
         aria-hidden="true">SB</span
       >
-      <span>SparkyBin Browser</span>
+      <span>SparkyBin</span>
     </a>
 
     <nav class="ml-auto hidden items-center gap-1 sm:flex" aria-label="Main">
@@ -39,6 +40,41 @@ const path = Astro.url.pathname.replace(/\/$/, "") || "/";
           </a>
         ))
       }
+
+      <details class="group relative">
+        <summary
+          class="flex cursor-pointer list-none items-center gap-1 rounded-md px-3 py-1.5 text-sm text-ink-soft transition-colors hover:bg-bg-tint hover:text-ink [&::-webkit-details-marker]:hidden"
+        >
+          Projects
+          <svg
+            viewBox="0 0 12 12"
+            class="size-3 transition-transform group-open:rotate-180"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M6 8.5 2 4h8L6 8.5Z"></path>
+          </svg>
+        </summary>
+        <div
+          class="absolute right-0 z-50 mt-1 w-60 overflow-hidden rounded-lg border border-rule bg-surface shadow-lift"
+        >
+          {
+            PRODUCTS.map((product) => (
+              <a
+                href={product.base}
+                class="block border-b border-rule px-4 py-3 last:border-b-0 transition-colors hover:bg-bg-tint"
+              >
+                <span class="block font-display text-sm font-semibold">
+                  {product.name}
+                </span>
+                <span class="mt-0.5 block text-xs text-ink-soft">
+                  {product.tagline}
+                </span>
+              </a>
+            ))
+          }
+        </div>
+      </details>
     </nav>
 
     <a

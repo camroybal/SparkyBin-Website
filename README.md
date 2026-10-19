@@ -10,7 +10,7 @@ npm install
 npm run dev
 ```
 
-The site is then on <http://localhost:4321/SparkyBin-Website/>. The path
+The site is then on <http://localhost:4321/SparkyBin-site/>. The path
 prefix is there because GitHub Pages serves a project site from a subdirectory,
 and `astro.config.mjs` sets `base` to match.
 
@@ -28,7 +28,7 @@ src/
   pages/        One file per page
   components/   The header, the footer, the channel table
   layouts/      Base.astro, the HTML shell
-  lib/          The GitHub API call for the latest release
+  lib/          The GitHub API call for the latest release, the product list
   styles/       global.css holds the palette and the type
   assets/       The screenshot and the fonts
 public/         Files copied as they are
@@ -37,6 +37,18 @@ tools/          fetch-fonts.py
 
 The copy lives in the page files. There is no CMS and no content collection,
 because there are five pages.
+
+## Projects
+
+`src/lib/products.ts` lists what is under the SparkyBin name. There is one
+entry at the moment, the browser. The header menu and the footer are built
+from that list, so a second project appears by adding an entry and giving it
+a directory of pages.
+
+The browser's pages are at the root of the site, because it is the only
+project. When a second one arrives, the browser's pages move under its slug
+and the root becomes an index of projects. Moving them is a matter of
+changing the `base` on the product entry and moving the files.
 
 ## The release version
 
@@ -68,7 +80,7 @@ and publishes it to GitHub Pages. The repository needs Pages set to use the
 GitHub Actions source, and the workflow needs permission to write to the
 `github-pages` environment, which the workflow asks for.
 
-The site lives at <https://camroybal.github.io/SparkyBin-Website/>.
+The site lives at <https://camroybal.github.io/SparkyBin-site/>.
 
 ## The screenshot
 
