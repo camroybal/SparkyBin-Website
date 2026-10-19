@@ -1,0 +1,143 @@
+@import "tailwindcss";
+@import "./fonts.css";
+
+/*
+ * The palette. Light is warm paper, dark is a cold near-black, and the
+ * accent is the blue from the browser's own screenshot so the site and the
+ * application look like they belong together.
+ */
+:root {
+  --bg: #fbfaf8;
+  --bg-tint: #f3f1ec;
+  --surface: #ffffff;
+  --ink: #15171c;
+  --ink-soft: #565b66;
+  --ink-faint: #8a8f98;
+  --rule: #e4e1da;
+  --rule-strong: #d2cec4;
+  --accent: #1f5fd1;
+  --accent-ink: #ffffff;
+  --accent-soft: #e9effc;
+  --shadow: 0 1px 2px rgb(21 23 28 / 0.04), 0 12px 32px -12px rgb(21 23 28 / 0.18);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1114;
+    --bg-tint: #15181d;
+    --surface: #16191e;
+    --ink: #edeef1;
+    --ink-soft: #9ba1ab;
+    --ink-faint: #6d737d;
+    --rule: #242830;
+    --rule-strong: #333844;
+    --accent: #7ea6ff;
+    --accent-ink: #0a0f1e;
+    --accent-soft: #17203a;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 16px 40px -16px rgb(0 0 0 / 0.7);
+  }
+}
+
+@theme inline {
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Public Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+
+  --color-bg: var(--bg);
+  --color-bg-tint: var(--bg-tint);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+
+  --shadow-lift: var(--shadow);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+}
+
+@layer components {
+  /* A label above a heading, set in the mono face. */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .rule-grid {
+    background-image:
+      linear-gradient(to right, var(--rule) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--rule) 1px, transparent 1px);
+    background-size: 56px 56px;
+    background-position: center;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
+  }
+
+  /* The frame around the browser screenshot. */
+  .browser-chrome {
+    background: var(--bg-tint);
+    border: 1px solid var(--rule-strong);
+    border-bottom: 0;
+    border-radius: 12px 12px 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

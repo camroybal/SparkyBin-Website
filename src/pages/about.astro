@@ -1,0 +1,104 @@
+---
+import Base from "../layouts/Base.astro";
+import { REPO_URL, UPSTREAM_URL, ISSUES_URL } from "../lib/releases";
+---
+
+<Base
+  title="About — SparkyBin Browser"
+  description="What SparkyBin Browser is, where it came from, and what it does differently from GNOME Web."
+>
+  <section class="border-b border-rule">
+    <div class="mx-auto max-w-6xl px-5 pt-16 pb-14 sm:px-8 sm:pt-20">
+      <p class="eyebrow">About</p>
+      <h1 class="mt-4 text-4xl font-semibold sm:text-5xl">A browser, forked</h1>
+      <p class="mt-5 max-w-2xl text-lg text-ink-soft">
+        SparkyBin Browser is GNOME Web with a different name, a different set
+        of defaults, and some fixes to the code that was causing trouble.
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-5 py-14 sm:px-8 sm:py-16">
+    <div class="space-y-12 text-[1.05rem] leading-relaxed text-ink-soft">
+      <div>
+        <h2 class="font-display text-xl font-semibold text-ink">What it is</h2>
+        <p class="mt-3">
+          A web browser for the desktop. It is written in C against GTK 4 and
+          libadwaita, and it renders pages with WebKitGTK, the same engine
+          that Safari and most other GTK browsers use. It has tabs, a history,
+          bookmarks, a private mode, a password manager, a reader mode, a
+          built-in ad blocker, web apps, and Firefox Sync.
+        </p>
+        <p class="mt-3">
+          There is no account to make, no telemetry, and nothing running in
+          the background that you did not ask for.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-xl font-semibold text-ink">Where it came from</h2>
+        <p class="mt-3">
+          GNOME Web is a good browser and a well-run project, and this one
+          starts from it. The fork was made because the WebExtension support
+          there was experimental: it was hidden behind a setting, and the code
+          behind it had a number of problems that turned up when an extension
+          was actually installed and used.
+        </p>
+        <p class="mt-3">
+          The changes made to upstream are recorded in the
+          <a class="text-accent hover:underline" href={`${REPO_URL}/blob/main/NOTICE`}>NOTICE</a>
+          file, as the GPL asks, and the original copyright notices are still
+          in the source. The project follows upstream where it can, and
+          <a class="text-accent hover:underline" href={UPSTREAM_URL}>GNOME Web</a>
+          is worth using if none of the differences below matter to you.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-xl font-semibold text-ink">What changed</h2>
+        <p class="mt-3">
+          WebExtensions are on by default, and the Extensions page has a
+          switch to turn them off again. The extension implementation was
+          read through and fixed. The most serious things found were a
+          JavaScript injection in <code class="font-mono text-sm">downloads.search()</code>,
+          where a filename with a quote in it could run code in the user
+          interface process, a path traversal in
+          <code class="font-mono text-sm">downloads.download()</code>, where a
+          filename of <code class="font-mono text-sm">../../foo</code> could
+          be written outside the Downloads directory, and the extension API
+          being installed in cross-origin frames, which would have handed the
+          extension's identity to the page embedding it.
+        </p>
+        <p class="mt-3">
+          The application ID, the executable name and the profile directory
+          changed too, so that a SparkyBin Browser installation and a GNOME
+          Web installation on the same machine do not share history, cookies,
+          bookmarks or extensions.
+        </p>
+        <p class="mt-3">
+          The extension code is not finished. Manifest V3 is not supported,
+          <code class="font-mono text-sm">storage.onChanged</code> is missing,
+          and the architecture write-up in the repository says what is known
+          to be broken.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-display text-xl font-semibold text-ink">Where it is going</h2>
+        <p class="mt-3">
+          0.1 is the first release of the fork. It is a working browser with
+          the fixes in it, not a finished product, and the icon and the
+          screenshots are still placeholders. The plan for what comes next is
+          in
+          <a class="text-accent hover:underline" href={`${REPO_URL}/blob/main/PLAN.md`}>PLAN.md</a>
+          in the repository.
+        </p>
+        <p class="mt-3">
+          If something is missing or broken, the
+          <a class="text-accent hover:underline" href={ISSUES_URL}>issue tracker</a>
+          is the place to say so.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>

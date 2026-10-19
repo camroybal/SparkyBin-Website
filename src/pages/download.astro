@@ -1,0 +1,122 @@
+---
+import Base from "../layouts/Base.astro";
+import BrowserFrame from "../components/BrowserFrame.astro";
+import { latestRelease, RELEASES_URL, REPO_URL } from "../lib/releases";
+
+const release = await latestRelease();
+
+const install = `flatpak install --user -y --bundle sparkybin-browser-${release.tag}.flatpak`;
+---
+
+<Base
+  title="Download — SparkyBin Browser"
+  description="Download SparkyBin Browser. A stable release, plus rolling Devel and Canary builds for people who want to track changes."
+>
+  <section class="border-b border-rule">
+    <div class="mx-auto max-w-6xl px-5 pt-16 pb-14 sm:px-8 sm:pt-20">
+      <p class="eyebrow">Download</p>
+      <h1 class="mt-4 text-4xl font-semibold sm:text-5xl">
+        SparkyBin Browser {release.version}
+      </h1>
+      <p class="mt-5 max-w-2xl text-lg text-ink-soft">
+        Releases are published on GitHub. The stable build is the one to
+        install; the other two are for testing.
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-16">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
+      <div>
+        <h2 class="font-display text-xl font-semibold">Stable</h2>
+        <p class="mt-3 text-ink-soft">
+          Built from a release tag, against the WebKit in the GNOME 51 runtime.
+          This is the version to run.
+        </p>
+
+        {
+          release.assets.length > 0 ? (
+            <ul class="mt-6 space-y-2">
+              {release.assets.map((asset) => (
+                <li>
+                  <a
+                    href={asset.url}
+                    class="flex items-center justify-between gap-4 rounded-lg border border-rule bg-surface px-4 py-3 transition-colors hover:border-accent"
+                  >
+                    <span class="font-mono text-sm">{asset.name}</span>
+                    <span class="text-sm text-ink-faint">Download</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div class="mt-6 rounded-lg border border-rule bg-surface px-4 py-4">
+              <p class="font-mono text-sm text-ink-soft">
+                sparkybin-browser-{release.tag}.flatpak
+              </p>
+              <a
+                href={release.url}
+                class="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline"
+              >
+                Get it from the releases page <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          )
+        }
+
+        <h3 class="mt-10 font-display text-base font-semibold">Install it</h3>
+        <div class="mt-3 overflow-hidden rounded-lg border border-rule bg-surface">
+          <pre class="overflow-x-auto px-4 py-3 font-mono text-[0.8rem] leading-relaxed"><code><span class="text-ink-soft">$</span> {install}</code></pre>
+        </div>
+        <p class="mt-3 text-sm text-ink-faint">
+          The bundle needs the GNOME 51 runtime, which flatpak will offer to
+          install.
+        </p>
+
+        <h3 class="mt-10 font-display text-base font-semibold">Other channels</h3>
+        <dl class="mt-3 space-y-4 text-sm">
+          <div class="rounded-lg border border-rule bg-surface px-4 py-3">
+            <dt class="font-display font-semibold">Devel</dt>
+            <dd class="mt-1 text-ink-soft">
+              The tip of the main branch, built against the same runtime. Not
+              published yet.
+            </dd>
+          </div>
+          <div class="rounded-lg border border-rule bg-surface px-4 py-3">
+            <dt class="font-display font-semibold">Canary</dt>
+            <dd class="mt-1 text-ink-soft">
+              The tip of the main branch, built against WebKit main. Breaks
+              more often, and sometimes will not start at all. Not published
+              yet.
+            </dd>
+          </div>
+        </dl>
+
+        <p class="mt-8 text-sm text-ink-soft">
+          Every release, including the ones that are not the current one, is on
+          <a class="text-accent hover:underline" href={RELEASES_URL}>the releases page</a>.
+        </p>
+      </div>
+
+      <aside class="lg:sticky lg:top-24 lg:self-start">
+        <BrowserFrame
+          alt="A SparkyBin Browser window showing a page of text"
+          caption="SparkyBin Browser on a Linux desktop, showing a page served over HTTPS."
+        />
+      </aside>
+    </div>
+  </section>
+
+  <section class="border-t border-rule bg-bg-tint">
+    <div class="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-16">
+      <h2 class="font-display text-xl font-semibold">No package for your distribution?</h2>
+      <p class="mt-3 max-w-2xl text-ink-soft">
+        There is not one yet. If you maintain a distribution and would like
+        one, or you want to package it yourself, say so on the
+        <a class="text-accent hover:underline" href={`${REPO_URL}/issues`}>issue tracker</a>.
+        The source builds with meson and there is a flatpak manifest in the
+        tree.
+      </p>
+    </div>
+  </section>
+</Base>

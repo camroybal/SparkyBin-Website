@@ -1,0 +1,99 @@
+---
+import Base from "../layouts/Base.astro";
+import { REPO_URL, UPSTREAM_URL } from "../lib/releases";
+---
+
+<Base
+  title="Source — SparkyBin Browser"
+  description="Build SparkyBin Browser from source. Meson, a flatpak manifest, and a container recipe that needs nothing installed on the host."
+>
+  <section class="border-b border-rule">
+    <div class="mx-auto max-w-6xl px-5 pt-16 pb-14 sm:px-8 sm:pt-20">
+      <p class="eyebrow">Source</p>
+      <h1 class="mt-4 text-4xl font-semibold sm:text-5xl">Build it yourself</h1>
+      <p class="mt-5 max-w-2xl text-lg text-ink-soft">
+        The whole thing is on GitHub, under the GNU GPL v3. Clone it, install a
+        few libraries, and it builds.
+      </p>
+      <a
+        href={REPO_URL}
+        class="mt-7 inline-flex items-center gap-2 rounded-lg bg-ink px-5 py-2.5 text-sm font-medium text-bg transition-transform hover:-translate-y-px"
+      >
+        Open the repository <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-16">
+    <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <h2 class="font-display text-xl font-semibold">With meson</h2>
+        <p class="mt-3 text-ink-soft">
+          The build needs WebKitGTK 6, GTK 4, libadwaita, json-glib, libsoup 3
+          and a few more. The
+          <a class="text-accent hover:underline" href={`${REPO_URL}/blob/main/HACKING.md`}>HACKING.md</a>
+          file in the repository has the full list, and a container recipe that
+          installs nothing on the host.
+        </p>
+
+        <div class="mt-5 overflow-hidden rounded-lg border border-rule bg-surface">
+          <div class="border-b border-rule px-4 py-2.5">
+            <span class="font-mono text-xs text-ink-faint">sh</span>
+          </div>
+          <pre class="overflow-x-auto px-4 py-3 font-mono text-[0.8rem] leading-relaxed"><code><span class="text-ink-soft">$</span> git clone https://github.com/camroybal/SparkyBin-Browser.git
+<span class="text-ink-soft">$</span> cd SparkyBin-Browser
+<span class="text-ink-soft">$</span> meson setup build
+<span class="text-ink-soft">$</span> ninja -C build
+<span class="text-ink-soft">$</span> build/src/sparkybin-browser</code></pre>
+        </div>
+
+        <h2 class="mt-12 font-display text-xl font-semibold">With flatpak</h2>
+        <p class="mt-3 text-ink-soft">
+          There are three manifests, one for each channel. The stable one is
+          <code class="font-mono text-sm">com.sparkybin.Browser.json</code>.
+        </p>
+        <div class="mt-5 overflow-hidden rounded-lg border border-rule bg-surface">
+          <pre class="overflow-x-auto px-4 py-3 font-mono text-[0.8rem] leading-relaxed"><code><span class="text-ink-soft">$</span> flatpak-builder --user --install build \
+      com.sparkybin.Browser.json</code></pre>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="font-display text-xl font-semibold">Contributing</h2>
+        <p class="mt-3 text-ink-soft">
+          Patches are welcome. The project follows the GNOME conventions for
+          commit messages, and the
+          <a class="text-accent hover:underline" href={`${REPO_URL}/blob/main/CONTRIBUTING.md`}>CONTRIBUTING.md</a>
+          file says what to put in a bug report and which problems belong to
+          WebKit rather than to the browser.
+        </p>
+
+        <h2 class="mt-12 font-display text-xl font-semibold">Reporting a problem</h2>
+        <p class="mt-3 text-ink-soft">
+          <a class="text-accent hover:underline" href={`${REPO_URL}/issues`}>The issue tracker</a>
+          is on GitHub. Problems with how a page renders, with JavaScript or
+          with video playback belong to
+          <a class="text-accent hover:underline" href="https://bugs.webkit.org/">WebKit Bugzilla</a>
+          instead, and the guide says which is which.
+        </p>
+
+        <h2 class="mt-12 font-display text-xl font-semibold">The upstream</h2>
+        <p class="mt-3 text-ink-soft">
+          This is a fork of
+          <a class="text-accent hover:underline" href={UPSTREAM_URL}>GNOME Web</a>,
+          last synced with the 51.1 release. The changes made to it are
+          recorded in the
+          <a class="text-accent hover:underline" href={`${REPO_URL}/blob/main/NOTICE`}>NOTICE</a>
+          file, and the original copyright notices are kept.
+        </p>
+
+        <div
+          class="mt-8 rounded-lg border border-rule bg-bg-tint px-4 py-3 text-sm text-ink-soft"
+        >
+          SparkyBin Browser is not affiliated with, authorized by, sponsored by
+          or endorsed by the GNOME Foundation.
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,234 @@
+---
+import Base from "../layouts/Base.astro";
+import BrowserFrame from "../components/BrowserFrame.astro";
+import ChannelTable from "../components/ChannelTable.astro";
+import { latestRelease, REPO_URL, ISSUES_URL, UPSTREAM_URL } from "../lib/releases";
+
+const release = await latestRelease();
+
+const features = [
+  {
+    title: "Extensions are on",
+    body: "WebExtensions load without a setting to flip first. Firefox and Chrome extensions work, as far as WebKit's implementation of the APIs allows.",
+  },
+  {
+    title: "The extension code was audited",
+    body: "A JavaScript injection in downloads.search(), a path traversal in downloads.download(), and the extension API being handed to frames that did not belong to the extension. All fixed.",
+  },
+  {
+    title: "Your data stays yours",
+    body: "The application ID, the executable and the profile directory are SparkyBin's, so it does not share history, cookies or extensions with a GNOME Web installation.",
+  },
+];
+
+const comparison = [
+  { label: "WebExtensions", upstream: "Off by default", fork: "On by default" },
+  { label: "Application ID", upstream: "org.gnome.Epiphany", fork: "com.sparkybin.Browser" },
+  { label: "Profile directory", upstream: "~/.local/share/epiphany", fork: "~/.local/share/com.sparkybin.Browser" },
+  { label: "Extension code", upstream: "As upstream", fork: "Audited and fixed" },
+  { label: "Icon and branding", upstream: "GNOME Web", fork: "SparkyBin" },
+];
+---
+
+<Base
+  title="SparkyBin Browser — a web browser for Linux desktops"
+  description="SparkyBin Browser is a web browser for Linux desktops, built on WebKitGTK with GTK 4 and libadwaita. A fork of GNOME Web with WebExtensions enabled by default."
+>
+  <!-- Hero -->
+  <section class="relative overflow-hidden border-b border-rule">
+    <div class="rule-grid pointer-events-none absolute inset-0 opacity-70" aria-hidden="true"></div>
+    <div
+      class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div class="relative mx-auto max-w-6xl px-5 pt-20 pb-16 sm:px-8 sm:pt-28 sm:pb-20">
+      <p class="eyebrow">Version {release.version} · A fork of GNOME Web</p>
+
+      <h1 class="mt-5 max-w-3xl text-4xl leading-[1.08] font-semibold sm:text-6xl">
+        A simple web browser for Linux desktops.
+      </h1>
+
+      <p class="mt-6 max-w-2xl text-lg text-ink-soft sm:text-xl">
+        SparkyBin Browser is built on WebKitGTK with GTK 4 and libadwaita. It is
+        GNOME Web with a different name, a different set of defaults, and the
+        extension code put through an audit.
+      </p>
+
+      <div class="mt-9 flex flex-wrap items-center gap-3">
+        <a
+          href="/download"
+          class="inline-flex items-center gap-2 rounded-lg bg-ink px-5 py-2.5 text-sm font-medium text-bg transition-transform hover:-translate-y-px"
+        >
+          Download {release.version}
+          <span aria-hidden="true">→</span>
+        </a>
+        <a
+          href={REPO_URL}
+          class="inline-flex items-center gap-2 rounded-lg border border-rule-strong px-5 py-2.5 text-sm font-medium transition-colors hover:border-accent hover:text-accent"
+        >
+          Read the source
+        </a>
+      </div>
+
+      <p class="mt-6 text-sm text-ink-faint">
+        Flatpak bundle, built on WebKitGTK. Linux only, for now.
+      </p>
+    </div>
+  </section>
+
+  <!-- Screenshot -->
+  <section class="mx-auto max-w-6xl px-5 sm:px-8">
+    <div class="-mt-2 sm:-mt-6">
+      <BrowserFrame
+        alt="A SparkyBin Browser window showing a page of text, with the address bar reading example.test"
+      />
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+    <div class="grid gap-10 sm:grid-cols-3 sm:gap-8">
+      {
+        features.map((feature) => (
+          <div class="border-t border-rule pt-6">
+            <h2 class="font-display text-lg font-semibold">{feature.title}</h2>
+            <p class="mt-3 text-[0.95rem] text-ink-soft">{feature.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section class="border-y border-rule bg-bg-tint">
+    <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
+      <div class="grid gap-10 lg:grid-cols-[minmax(0,22rem)_1fr] lg:gap-16">
+        <div>
+          <p class="eyebrow">The fork</p>
+          <h2 class="mt-4 text-3xl font-semibold sm:text-4xl">
+            What is different from GNOME Web
+          </h2>
+          <p class="mt-5 text-ink-soft">
+            GNOME Web is a fine browser, and it is where this one starts. The
+            differences are deliberate, and they are recorded in the NOTICE
+            file in the repository.
+          </p>
+          <a
+            href="/about"
+            class="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline"
+          >
+            More about the project <span aria-hidden="true">→</span></a
+          >
+        </div>
+
+        <div class="overflow-hidden rounded-xl border border-rule bg-surface">
+          <div
+            class="hidden border-b border-rule px-4 py-3 sm:grid sm:grid-cols-[minmax(0,12rem)_1fr_1fr] sm:gap-4"
+          >
+            <span></span>
+            <span class="font-mono text-xs font-medium tracking-widest text-ink-faint uppercase">
+              GNOME Web
+            </span>
+            <span class="font-mono text-xs font-medium tracking-widest text-accent uppercase">
+              SparkyBin
+            </span>
+          </div>
+
+          <dl>
+            {
+              comparison.map((row) => (
+                <div class="grid gap-x-4 gap-y-1 border-b border-rule px-4 py-3 last:border-b-0 sm:grid-cols-[minmax(0,12rem)_1fr_1fr] sm:items-baseline">
+                  <dt class="text-sm text-ink-soft">{row.label}</dt>
+                  <dd class="font-mono text-xs text-ink-faint">
+                    <span class="text-ink-faint sm:hidden">GNOME Web: </span>
+                    {row.upstream}
+                  </dd>
+                  <dd class="font-mono text-xs font-medium text-ink">
+                    <span class="text-ink-faint sm:hidden">SparkyBin: </span>
+                    {row.fork}
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Channels -->
+  <section class="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
+    <p class="eyebrow">Get it</p>
+    <h2 class="mt-4 text-3xl font-semibold sm:text-4xl">Three ways to run it</h2>
+    <p class="mt-4 max-w-2xl text-ink-soft">
+      One stable release, and two rolling builds for people who want to watch
+      things change.
+    </p>
+
+    <div class="mt-8">
+      <ChannelTable version={release.version} releaseUrl={release.url} />
+    </div>
+  </section>
+
+  <!-- Build -->
+  <section class="border-t border-rule bg-bg-tint">
+    <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
+      <div class="grid gap-10 lg:grid-cols-2 lg:gap-16">
+        <div>
+          <p class="eyebrow">From source</p>
+          <h2 class="mt-4 text-3xl font-semibold sm:text-4xl">Build it yourself</h2>
+          <p class="mt-5 text-ink-soft">
+            The build needs WebKitGTK, GTK 4, libadwaita and a handful of other
+            libraries. There is a flatpak manifest if you would rather not
+            install them, and a container recipe in HACKING.md if you would
+            rather not install anything at all.
+          </p>
+          <div class="mt-7 flex flex-wrap gap-3">
+            <a
+              href="/source"
+              class="inline-flex items-center gap-2 rounded-lg border border-rule-strong bg-surface px-5 py-2.5 text-sm font-medium transition-colors hover:border-accent hover:text-accent"
+            >
+              Build instructions
+            </a>
+            <a
+              href={ISSUES_URL}
+              class="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium text-ink-soft transition-colors hover:text-ink"
+            >
+              Report a problem
+            </a>
+          </div>
+        </div>
+
+        <div class="overflow-hidden rounded-xl border border-rule bg-surface">
+          <div class="flex items-center gap-2 border-b border-rule px-4 py-2.5">
+            <span class="font-mono text-xs text-ink-faint">sh</span>
+          </div>
+          <pre class="overflow-x-auto px-5 py-4 font-mono text-[0.8rem] leading-relaxed"><code><span class="text-ink-soft">$</span> git clone https://github.com/camroybal/SparkyBin-Browser.git
+<span class="text-ink-soft">$</span> cd SparkyBin-Browser
+<span class="text-ink-soft">$</span> meson setup build
+<span class="text-ink-soft">$</span> ninja -C build
+<span class="text-ink-soft">$</span> build/src/sparkybin-browser</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
+    <div class="max-w-2xl">
+      <h2 class="font-display text-2xl font-semibold sm:text-3xl">
+        Free software, and it stays that way
+      </h2>
+      <p class="mt-4 text-ink-soft">
+        The source is on
+        <a class="text-accent hover:underline" href={REPO_URL}>GitHub</a> under the
+        GNU GPL v3. The changes made to the code it was forked from are in
+        <a class="text-accent hover:underline" href={`${REPO_URL}/blob/main/NOTICE`}>NOTICE</a>,
+        and the browser it started as is
+        <a class="text-accent hover:underline" href={UPSTREAM_URL}>GNOME Web</a>.
+      </p>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,63 @@
+---
+import { REPO_URL, ISSUES_URL, UPSTREAM_URL } from "../lib/releases";
+---
+
+<footer class="border-t border-rule bg-bg-tint">
+  <div class="mx-auto max-w-6xl px-5 py-12 sm:px-8">
+    <div class="grid gap-10 sm:grid-cols-3">
+      <div>
+        <p class="font-display text-sm font-semibold">SparkyBin Browser</p>
+        <p class="mt-2 max-w-xs text-sm text-ink-soft">
+          A web browser for Linux desktops. Built on WebKitGTK, GTK 4 and
+          libadwaita.
+        </p>
+      </div>
+
+      <div>
+        <p class="font-mono text-xs font-medium tracking-widest text-ink-faint uppercase">
+          Project
+        </p>
+        <ul class="mt-3 space-y-2 text-sm">
+          <li><a class="text-ink-soft transition-colors hover:text-accent" href="/download">Download</a></li>
+          <li><a class="text-ink-soft transition-colors hover:text-accent" href="/source">Build from source</a></li>
+          <li>
+            <a class="text-ink-soft transition-colors hover:text-accent" href={REPO_URL}>Repository</a>
+          </li>
+          <li>
+            <a class="text-ink-soft transition-colors hover:text-accent" href={ISSUES_URL}>Report a bug</a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="font-mono text-xs font-medium tracking-widest text-ink-faint uppercase">
+          Elsewhere
+        </p>
+        <ul class="mt-3 space-y-2 text-sm">
+          <li>
+            <a class="text-ink-soft transition-colors hover:text-accent" href={UPSTREAM_URL}
+              >GNOME Web upstream</a
+            >
+          </li>
+          <li>
+            <a class="text-ink-soft transition-colors hover:text-accent" href="https://www.gnu.org/licenses/gpl-3.0.html"
+              >GNU GPL v3</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div
+      class="mt-10 flex flex-col gap-3 border-t border-rule pt-6 text-xs text-ink-faint sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p>
+        SparkyBin Browser is free software under the GNU GPL v3 or later. It is
+        a modified version of GNOME Web.
+      </p>
+      <p class="font-mono">
+        Not affiliated with the GNOME Foundation.
+      </p>
+    </div>
+  </div>
+</footer>
