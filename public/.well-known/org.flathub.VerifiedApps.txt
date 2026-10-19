@@ -1,0 +1,17 @@
+# Flathub domain verification
+#
+# Flathub verifies that this domain belongs to the developer of an app by
+# looking for this file at the root of the domain. The file must contain
+# the token that Flathub shows in the Developer Portal, on its own line.
+#
+# The token is issued per app, so it is only available once the app has been
+# submitted and accepted. When you have it, replace the comment below with
+# it:
+#
+#   com.sparkybin.Browser
+#   00000000-aaaa-0000-aaaa-000000000000
+#
+# The domain used for the check is the one in the app ID, so
+# com.sparkybin.Browser is verified through sparkybin.com.
+#
+# See https://docs.flathub.org/docs/for-app-authors/verification

@@ -10,15 +10,29 @@ npm install
 npm run dev
 ```
 
-The site is then on <http://localhost:4321/SparkyBin-site/>. The path
-prefix is there because GitHub Pages serves a project site from a subdirectory,
-and `astro.config.mjs` sets `base` to match.
+The site is then on <http://localhost:4321/>. The path prefix is there
+because GitHub Pages serves a project site from a subdirectory, and
+`astro.config.mjs` sets `base` to match.
 
 To check the build the way CI does:
 
 ```sh
 npm run build
 npm run preview
+```
+
+## The domain
+
+The site is served from `sparkybin.com`, which is why there is a `CNAME`
+file in the root of the repository. GitHub Pages reads it, serves the site
+at the domain, and issues the certificate.
+
+`base` and `site` in `astro.config.mjs` can be overridden with `SITE_BASE`
+and `SITE_URL`, which is how the site is built for the project path on
+`github.io` instead:
+
+```sh
+SITE_BASE=/SparkyBin-site SITE_URL=https://camroybal.github.io/SparkyBin-site npm run build
 ```
 
 ## Layout
@@ -80,7 +94,16 @@ and publishes it to GitHub Pages. The repository needs Pages set to use the
 GitHub Actions source, and the workflow needs permission to write to the
 `github-pages` environment, which the workflow asks for.
 
-The site lives at <https://camroybal.github.io/SparkyBin-site/>.
+The site lives at <https://sparkybin.com>.
+
+## Flathub verification
+
+Flathub checks that a domain belongs to the developer of an app by looking
+for a token at `/.well-known/org.flathub.VerifiedApps.txt`. The file is in
+`public/.well-known/`, and the token is issued per app in the Flathub
+Developer Portal, so it has to be pasted in once it exists. The directory
+starts with a dot, which the copy of the public directory skips, so
+`tools/copy-static.sh` puts it in the build output.
 
 ## The screenshot
 
