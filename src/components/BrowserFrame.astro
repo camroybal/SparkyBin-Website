@@ -1,20 +1,29 @@
 ---
-import screenshot from "../assets/screenshot.png";
+import light from "../assets/screenshot.png";
+import dark from "../assets/screenshot-dark.png";
 
 interface Props {
-  src?: string;
   alt: string;
   caption?: string;
 }
 
-const { src = screenshot.src, alt, caption } = Astro.props;
+const { alt, caption } = Astro.props;
 ---
 
 <figure class="group">
   <div
     class="overflow-hidden rounded-xl border border-rule-strong bg-surface shadow-lift transition-transform duration-300 group-hover:-translate-y-0.5"
   >
-    <img src={src} alt={alt} width="1268" height="808" class="block w-full" />
+    <picture>
+      <source srcset={dark.src} media="(prefers-color-scheme: dark)" />
+      <img
+        src={light.src}
+        alt={alt}
+        width="1268"
+        height="808"
+        class="block w-full"
+      />
+    </picture>
   </div>
   {
     caption && (
