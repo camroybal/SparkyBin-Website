@@ -35,6 +35,8 @@ export async function latestRelease(): Promise<Release> {
           Accept: "application/vnd.github+json",
           "User-Agent": "sparkybin-website",
         },
+        // A slow API should not hold up the build for long.
+        signal: AbortSignal.timeout(10_000),
       },
     );
 
@@ -42,15 +44,25 @@ export async function latestRelease(): Promise<Release> {
       return FALLBACK_RELEASE;
     }
 
-    const data = await response.json();
+    const data = (await response.json()) as {
+      tag_name?: string;
+      html_url?: string;
+      published_at?: string | null;
+      prerelease?: boolean;
+      assets?: {
+        name: string;
+        browser_download_url: string;
+        size?: number;
+      }[];
+    };
 
     return {
-      tag: data.tag_name,
+      tag: data.tag_name ?? FALLBACK_RELEASE.tag,
       version: String(data.tag_name ?? "").replace(/^v/, ""),
-      url: data.html_url,
+      url: data.html_url ?? FALLBACK_RELEASE.url,
       published: data.published_at ?? null,
       prerelease: Boolean(data.prerelease),
-      assets: (data.assets ?? []).map((asset: any) => ({
+      assets: (data.assets ?? []).map((asset) => ({
         name: asset.name,
         url: asset.browser_download_url,
         size: asset.size ?? 0,

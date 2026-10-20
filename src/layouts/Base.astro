@@ -3,26 +3,33 @@ import "../styles/global.css";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import screenshot from "../assets/screenshot.png";
+import { currentRoute } from "../lib/urls";
 
 interface Props {
   title: string;
   description: string;
+  /** Set on the error page, which should not be indexed. */
+  noindex?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, noindex = false } = Astro.props;
 
+const base = import.meta.env.BASE_URL.replace(/\/+$/, "");
+const withBase = (path: string) => `${base}${path}`;
+
+/*
+ * The canonical address is the one a reader types, which is not the name
+ * of the file the build writes, so the route of the page is worked out
+ * from the path it was built at.
+ */
+const relative = currentRoute(Astro.url.pathname, base);
 const canonical = Astro.site
-  ? new URL(Astro.url.pathname, Astro.site)
-  : Astro.url;
+  ? new URL(withBase(relative), Astro.site)
+  : new URL(withBase(relative), Astro.url);
 
 const socialImage = Astro.site
   ? new URL(screenshot.src, Astro.site)
   : new URL(screenshot.src, Astro.url);
-
-// BASE_URL is "/" when the site is served from the root of a domain, and
-// has no trailing slash otherwise.
-const base = import.meta.env.BASE_URL.replace(/\/+$/, "");
-const withBase = (path: string) => `${base}${path}`;
 ---
 
 <!doctype html>
@@ -32,17 +39,64 @@ const withBase = (path: string) => `${base}${path}`;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="icon" href={withBase("/favicon.svg")} type="image/svg+xml" />
     <link rel="canonical" href={canonical} />
+    <link rel="icon" href={withBase("/favicon.svg")} type="image/svg+xml" />
+    <link rel="sitemap" href={withBase("/sitemap.xml")} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="robots" content={noindex ? "noindex, follow" : "index, follow"} />
+
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SparkyBin" />
+    <meta property="og:locale" content="en" />
+    <meta property="og:url" content={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={socialImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1268" />
+    <meta property="og:image:height" content="808" />
+    <meta
+      property="og:image:alt"
+      content="A SparkyBin Browser window showing a page of text."
+    />
+
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="theme-color" content="#fbfaf8" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0f1114" media="(prefers-color-scheme: dark)" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+
+    <meta
+      name="theme-color"
+      content="#fbfaf8"
+      media="(prefers-color-scheme: light)"
+      data-light
+    />
+    <meta
+      name="theme-color"
+      content="#0f1114"
+      media="(prefers-color-scheme: dark)"
+      data-dark
+    />
+
+    {/*
+      The theme the reader picked in the header is applied before the page
+      is painted, so the first frame is already the right colour.
+    */}
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem("sparkybin-theme");
+          if (stored === "light" || stored === "dark") {
+            document.documentElement.dataset.theme = stored;
+          }
+        } catch {
+          /* Storage turned off: the system setting decides. */
+        }
+      })();
+    </script>
   </head>
-  <body class="min-h-screen flex flex-col">
+  <body class="flex min-h-screen flex-col">
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-ink"

@@ -1,13 +1,18 @@
 ---
 import { REPO_URL, ISSUES_URL, UPSTREAM_URL } from "../lib/releases";
 import { PRODUCTS } from "../lib/products";
+import { siteUrl } from "../lib/urls";
 ---
 
 <footer class="border-t border-rule bg-bg-tint">
   <div class="mx-auto max-w-6xl px-5 py-12 sm:px-8">
     <div class="grid gap-10 sm:grid-cols-3">
       <div>
-        <p class="font-display text-sm font-semibold">SparkyBin</p>
+        <a
+          href={siteUrl("/")}
+          class="font-display text-sm font-semibold transition-colors hover:text-accent"
+          >SparkyBin</a
+        >
         <p class="mt-2 max-w-xs text-sm text-ink-soft">
           Software for the desktop, built on free software and released under
           the GPL.
@@ -23,7 +28,7 @@ import { PRODUCTS } from "../lib/products";
             PRODUCTS.map((product) => (
               <li>
                 <a
-                  href={product.base}
+                  href={siteUrl(product.base)}
                   class="text-ink-soft transition-colors hover:text-accent"
                 >
                   {product.name}
@@ -40,8 +45,8 @@ import { PRODUCTS } from "../lib/products";
           Browser
         </p>
         <ul class="mt-3 space-y-2 text-sm">
-          <li><a class="text-ink-soft transition-colors hover:text-accent" href="/download">Download</a></li>
-          <li><a class="text-ink-soft transition-colors hover:text-accent" href="/source">Build from source</a></li>
+          <li><a class="text-ink-soft transition-colors hover:text-accent" href={siteUrl("/download")}>Download</a></li>
+          <li><a class="text-ink-soft transition-colors hover:text-accent" href={siteUrl("/source")}>Build from source</a></li>
           <li>
             <a class="text-ink-soft transition-colors hover:text-accent" href={REPO_URL}>Repository</a>
           </li>

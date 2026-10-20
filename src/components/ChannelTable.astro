@@ -38,7 +38,7 @@ const channels = [
 
 <div class="overflow-hidden rounded-xl border border-rule bg-surface">
   <div
-    class="hidden border-b border-rule px-5 py-3 sm:grid sm:grid-cols-[11rem_7rem_1fr_auto] sm:gap-5"
+    class="hidden border-b border-rule px-5 py-3 md:grid md:grid-cols-[10rem_6.5rem_minmax(0,1fr)_auto] md:gap-4"
   >
     <span class="font-mono text-xs font-medium tracking-widest text-ink-faint uppercase">
       Channel
@@ -55,12 +55,12 @@ const channels = [
   <ul>
     {
       channels.map((channel) => (
-        <li class="grid gap-2 border-b border-rule px-5 py-4 last:border-b-0 sm:grid-cols-[11rem_7rem_1fr_auto] sm:items-start sm:gap-5">
-          <div>
+        <li class="grid gap-2 border-b border-rule px-5 py-4 last:border-b-0 md:grid-cols-[10rem_6.5rem_minmax(0,1fr)_auto] md:items-start md:gap-4">
+          <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
             <span class="font-display font-semibold">{channel.name}</span>
             <span
               class:list={[
-                "ml-2 rounded-full px-2 py-0.5 font-mono text-[0.65rem] tracking-wide uppercase",
+                "rounded-full px-2 py-0.5 font-mono text-[0.65rem] tracking-wide uppercase",
                 channel.state === "ready"
                   ? "bg-accent-soft text-accent"
                   : "bg-bg-tint text-ink-faint",
@@ -69,7 +69,7 @@ const channels = [
               {channel.state === "ready" ? "Recommended" : "Soon"}
             </span>
           </div>
-          <div class="font-mono text-xs text-ink-faint">{channel.tag}</div>
+          <div class="font-mono text-xs break-words text-ink-faint">{channel.tag}</div>
           <div class="text-sm text-ink-soft">{channel.description}</div>
           <div>
             {channel.href ? (

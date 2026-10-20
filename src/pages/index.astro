@@ -3,6 +3,7 @@ import Base from "../layouts/Base.astro";
 import BrowserFrame from "../components/BrowserFrame.astro";
 import ChannelTable from "../components/ChannelTable.astro";
 import { latestRelease, REPO_URL, ISSUES_URL, UPSTREAM_URL } from "../lib/releases";
+import { siteUrl } from "../lib/urls";
 
 const release = await latestRelease();
 
@@ -28,6 +29,16 @@ const comparison = [
   { label: "Extension code", upstream: "As upstream", ours: "Audited and fixed" },
   { label: "Icon and branding", upstream: "GNOME Web", ours: "SparkyBin" },
 ];
+
+/*
+ * The paths are long and have no spaces in them, so without somewhere
+ * natural to break the browser splits them wherever it happens to run
+ * out of room. This gives it a place to break, after each slash.
+ *
+ * The strings are written here rather than taken from anywhere else, so
+ * the markup can be put in as it is.
+ */
+const withBreaks = (value: string) => value.replace(/\//g, "/<wbr>");
 ---
 
 <Base
@@ -35,13 +46,8 @@ const comparison = [
   description="SparkyBin Browser is a web browser for Linux desktops, built on WebKitGTK with GTK 4 and libadwaita. WebExtensions enabled by default."
 >
   <!-- Hero -->
-  <section class="relative overflow-hidden border-b border-rule">
-    <div class="rule-grid pointer-events-none absolute inset-0 opacity-70" aria-hidden="true"></div>
-    <div
-      class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent"
-      aria-hidden="true"
-    >
-    </div>
+  <section class="relative overflow-hidden">
+    <div class="rule-grid pointer-events-none absolute inset-0 opacity-45" aria-hidden="true"></div>
 
     <div class="relative mx-auto max-w-6xl px-5 pt-20 pb-16 sm:px-8 sm:pt-28 sm:pb-20">
       <p class="eyebrow">Version {release.version}</p>
@@ -59,7 +65,7 @@ const comparison = [
 
       <div class="mt-9 flex flex-wrap items-center gap-3">
         <a
-          href="/download"
+          href={siteUrl("/download")}
           class="inline-flex items-center gap-2 rounded-lg bg-ink px-5 py-2.5 text-sm font-medium text-bg transition-transform hover:-translate-y-px"
         >
           Download {release.version}
@@ -80,7 +86,7 @@ const comparison = [
   </section>
 
   <!-- Screenshot -->
-  <section class="mx-auto max-w-6xl px-5 sm:px-8">
+  <section class="relative mx-auto max-w-6xl px-5 sm:px-8">
     <div class="-mt-2 sm:-mt-6">
       <BrowserFrame
         alt="A SparkyBin Browser window showing a page of text, with the address bar reading example.test"
@@ -117,7 +123,7 @@ const comparison = [
             list is in the NOTICE file in the repository.
           </p>
           <a
-            href="/about"
+            href={siteUrl("/about")}
             class="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline"
           >
             More about the project <span aria-hidden="true">→</span></a
@@ -126,7 +132,7 @@ const comparison = [
 
         <div class="overflow-hidden rounded-xl border border-rule bg-surface">
           <div
-            class="hidden border-b border-rule px-4 py-3 sm:grid sm:grid-cols-[minmax(0,12rem)_1fr_1fr] sm:gap-4"
+            class="hidden border-b border-rule px-4 py-3 sm:grid sm:grid-cols-[minmax(0,11rem)_minmax(0,1fr)_minmax(0,1fr)] sm:gap-4"
           >
             <span></span>
             <span class="font-mono text-xs font-medium tracking-widest text-ink-faint uppercase">
@@ -140,15 +146,15 @@ const comparison = [
           <dl>
             {
               comparison.map((row) => (
-                <div class="grid gap-x-4 gap-y-1 border-b border-rule px-4 py-3 last:border-b-0 sm:grid-cols-[minmax(0,12rem)_1fr_1fr] sm:items-baseline">
+                <div class="grid gap-x-4 gap-y-1 border-b border-rule px-4 py-3 last:border-b-0 sm:grid-cols-[minmax(0,11rem)_minmax(0,1fr)_minmax(0,1fr)] sm:items-baseline">
                   <dt class="text-sm text-ink-soft">{row.label}</dt>
-                  <dd class="font-mono text-xs text-ink-faint">
+                  <dd class="font-mono text-xs break-words text-ink-faint">
                     <span class="text-ink-faint sm:hidden">GNOME Web: </span>
-                    {row.upstream}
+                    <span set:html={withBreaks(row.upstream)} />
                   </dd>
-                  <dd class="font-mono text-xs font-medium text-ink">
+                  <dd class="font-mono text-xs font-medium break-words text-ink">
                     <span class="text-ink-faint sm:hidden">SparkyBin: </span>
-                    {row.ours}
+                    <span set:html={withBreaks(row.ours)} />
                   </dd>
                 </div>
               ))
@@ -188,7 +194,7 @@ const comparison = [
           </p>
           <div class="mt-7 flex flex-wrap gap-3">
             <a
-              href="/source"
+              href={siteUrl("/source")}
               class="inline-flex items-center gap-2 rounded-lg border border-rule-strong bg-surface px-5 py-2.5 text-sm font-medium transition-colors hover:border-accent hover:text-accent"
             >
               Build instructions

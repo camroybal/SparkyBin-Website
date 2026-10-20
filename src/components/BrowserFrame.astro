@@ -10,20 +10,35 @@ interface Props {
 const { alt, caption } = Astro.props;
 ---
 
-<figure class="group">
+<figure>
   <div
-    class="overflow-hidden rounded-xl border border-rule-strong bg-surface shadow-lift transition-transform duration-300 group-hover:-translate-y-0.5"
+    class="overflow-hidden rounded-xl border border-rule-strong bg-surface shadow-lift"
   >
-    <picture>
-      <source srcset={dark.src} media="(prefers-color-scheme: dark)" />
-      <img
-        src={light.src}
-        alt={alt}
-        width="1268"
-        height="808"
-        class="block w-full"
-      />
-    </picture>
+    {
+      /*
+        There is a copy of the screenshot for each palette, and the one
+        that matches the theme the reader is looking at is the one shown.
+        The other is never rendered, so it is never fetched.
+      */
+    }
+    <img
+      src={light.src}
+      alt={alt}
+      width="1268"
+      height="808"
+      loading="lazy"
+      decoding="async"
+      class="shot-light block w-full"
+    />
+    <img
+      src={dark.src}
+      alt={alt}
+      width="1268"
+      height="808"
+      loading="lazy"
+      decoding="async"
+      class="shot-dark block w-full"
+    />
   </div>
   {
     caption && (

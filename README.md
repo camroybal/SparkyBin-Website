@@ -17,6 +17,7 @@ because GitHub Pages serves a project site from a subdirectory, and
 To check the build the way CI does:
 
 ```sh
+npm run check
 npm run build
 npm run preview
 ```
@@ -67,7 +68,8 @@ src/
   pages/        One file per page
   components/   The header, the footer, the channel table
   layouts/      Base.astro, the HTML shell
-  lib/          The GitHub API call for the latest release, the product list
+  lib/          The GitHub API call for the latest release, the product list,
+                the helpers for the paths of the site
   styles/       global.css holds the palette and the type
   assets/       The screenshot and the fonts
 public/         Files copied as they are
@@ -76,6 +78,39 @@ tools/          fetch-fonts.py
 
 The copy lives in the page files. There is no CMS and no content collection,
 because there are five pages.
+
+## The theme
+
+The site has a light and a dark palette, and the reader can pick one from
+the button in the header. The choice is kept in local storage and is
+applied by a small script in the head of the page, before the page is
+painted, so that the first frame is already the right colour.
+
+The two palettes are written with `light-dark()` in `src/styles/global.css`,
+which means the site follows the system setting on its own and the button
+only has to set `color-scheme` on the root element. The screenshot is shown
+in the palette in use, so there is a copy of it for each and the one that
+is not shown is never fetched.
+
+## The paths of the site
+
+The pages are built one file per page, so the address of a built page ends
+in `.html` and the front page is called `index.html`. Neither is the
+address a reader types. `src/lib/urls.ts` takes the built path and works
+out the address from it, and it is used for the canonical addresses, for
+the links in the header, and for the paths of the pages in the sitemap.
+
+Internal links go through `siteUrl()`, which puts the base path in front
+of them, so that they still work when the site is served from a
+subdirectory as it is on github.io.
+
+## The sitemap and the robots file
+
+`src/pages/sitemap.xml.js` and `src/pages/robots.txt.js` are built along
+with the pages. They are JavaScript rather than TypeScript on purpose:
+Astro gives a page file with a dot in its name, such as `sitemap.xml.ts`,
+a route of its own, and the build then hands the file to esbuild as
+something other than TypeScript, which fails on the first type annotation.
 
 ## Projects
 

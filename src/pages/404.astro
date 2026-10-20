@@ -1,10 +1,12 @@
 ---
 import Base from "../layouts/Base.astro";
+import { siteUrl } from "../lib/urls";
 ---
 
 <Base
   title="Not found — SparkyBin Browser"
   description="That page does not exist."
+  noindex
 >
   <section class="mx-auto flex min-h-[60vh] max-w-3xl flex-col justify-center px-5 py-20 sm:px-8">
     <p class="eyebrow">404</p>
@@ -15,13 +17,13 @@ import Base from "../layouts/Base.astro";
     </p>
     <div class="mt-8 flex flex-wrap gap-3">
       <a
-        href="/download"
+        href={siteUrl("/download")}
         class="inline-flex items-center gap-2 rounded-lg bg-ink px-5 py-2.5 text-sm font-medium text-bg transition-transform hover:-translate-y-px"
       >
         Download
       </a>
       <a
-        href="/"
+        href={siteUrl("/")}
         class="inline-flex items-center gap-2 rounded-lg border border-rule-strong px-5 py-2.5 text-sm font-medium transition-colors hover:border-accent hover:text-accent"
       >
         Back to the front page

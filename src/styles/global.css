@@ -5,37 +5,43 @@
  * The palette. Light is warm paper, dark is a cold near-black, and the
  * accent is the blue from the browser's own screenshot so the site and the
  * application look like they belong together.
+ *
+ * The two palettes are written with light-dark(), so the page follows the
+ * reader's system setting on its own, and the header can override it
+ * without a second copy of the colours.
  */
 :root {
-  --bg: #fbfaf8;
-  --bg-tint: #f3f1ec;
-  --surface: #ffffff;
-  --ink: #15171c;
-  --ink-soft: #565b66;
-  --ink-faint: #8a8f98;
-  --rule: #e4e1da;
-  --rule-strong: #d2cec4;
-  --accent: #1f5fd1;
-  --accent-ink: #ffffff;
-  --accent-soft: #e9effc;
-  --shadow: 0 1px 2px rgb(21 23 28 / 0.04), 0 12px 32px -12px rgb(21 23 28 / 0.18);
+  color-scheme: light dark;
+
+  --bg: light-dark(#fbfaf8, #0f1114);
+  --bg-tint: light-dark(#f3f1ec, #15181d);
+  --surface: light-dark(#ffffff, #16191e);
+  --ink: light-dark(#15171c, #edeef1);
+  --ink-soft: light-dark(#565b66, #9ba1ab);
+  --ink-faint: light-dark(#8a8f98, #6d737d);
+  --rule: light-dark(#e4e1da, #242830);
+  --rule-strong: light-dark(#d2cec4, #333844);
+  --accent: light-dark(#1f5fd1, #7ea6ff);
+  --accent-ink: light-dark(#ffffff, #0a0f1e);
+  --accent-soft: light-dark(#e9effc, #17203a);
+  --shadow: light-dark(
+    0 1px 2px rgb(21 23 28 / 0.04),
+    0 12px 32px -12px rgb(21 23 28 / 0.18),
+    0 1px 2px rgb(0 0 0 / 0.4),
+    0 16px 40px -16px rgb(0 0 0 / 0.7)
+  );
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0f1114;
-    --bg-tint: #15181d;
-    --surface: #16191e;
-    --ink: #edeef1;
-    --ink-soft: #9ba1ab;
-    --ink-faint: #6d737d;
-    --rule: #242830;
-    --rule-strong: #333844;
-    --accent: #7ea6ff;
-    --accent-ink: #0a0f1e;
-    --accent-soft: #17203a;
-    --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 16px 40px -16px rgb(0 0 0 / 0.7);
-  }
+/*
+ * The reader has picked a theme in the header, so the system setting no
+ * longer decides which palette is used.
+ */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -61,6 +67,8 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Keep the top of a jumped-to section clear of the sticky header. */
+    scroll-padding-top: 5rem;
     -webkit-text-size-adjust: 100%;
   }
 
@@ -86,10 +94,18 @@
     text-wrap: pretty;
   }
 
+  /* Inline code gets a chip; code inside a pre block is left alone. */
+  :not(pre) > code {
+    background-color: var(--bg-tint);
+    border: 1px solid var(--rule);
+    border-radius: 0.3rem;
+    padding: 0.1em 0.35em;
+    font-size: 0.9em;
+  }
+
   :focus-visible {
     outline: 2px solid var(--accent);
-    outline-offset: 3px;
-    border-radius: 2px;
+    outline-offset: 2px;
   }
 
   ::selection {
@@ -109,22 +125,75 @@
     color: var(--accent);
   }
 
+  /*
+   * The grid is the one place where the palette shows through as lines,
+   * so it is kept faint and masked to a soft shape.
+   */
   .rule-grid {
     background-image:
       linear-gradient(to right, var(--rule) 1px, transparent 1px),
       linear-gradient(to bottom, var(--rule) 1px, transparent 1px);
-    background-size: 56px 56px;
-    background-position: center;
-    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
-    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
+    background-size: 64px 64px;
+    background-position: center top;
+    -webkit-mask-image: radial-gradient(90% 70% at 50% -10%, #000 0%, transparent 70%);
+    mask-image: radial-gradient(90% 70% at 50% -10%, #000 0%, transparent 70%);
+  }
+}
+
+/*
+ * These two are left out of the layers on purpose: they set the display
+ * of elements that carry Tailwind's own display utilities, and an
+ * unlayered rule beats a layered one whatever the specificity.
+ */
+
+/*
+ * The button that switches the theme. One icon is shown at a time, picked
+ * by the theme that is in use.
+ */
+.theme-icon {
+  display: none;
+}
+
+:root:not([data-theme]) .theme-icon-system,
+:root[data-theme="light"] .theme-icon-light,
+:root[data-theme="dark"] .theme-icon-dark {
+  display: block;
+}
+
+/*
+ * The screenshot is shown in the palette the reader is looking at, which
+ * is not always the palette the system is set to, so there is a copy of
+ * it for each and only the one in use is shown. The copy that is not
+ * shown is never rendered, so it is never fetched either.
+ *
+ * The light copy is the one shown by default, and the dark one takes
+ * over from it.
+ */
+.shot-light {
+  display: block;
+}
+
+.shot-dark {
+  display: none;
+}
+
+:root[data-theme="dark"] .shot-light,
+:root[data-theme="light"] .shot-dark {
+  display: none;
+}
+
+:root[data-theme="light"] .shot-light,
+:root[data-theme="dark"] .shot-dark {
+  display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .shot-light {
+    display: none;
   }
 
-  /* The frame around the browser screenshot. */
-  .browser-chrome {
-    background: var(--bg-tint);
-    border: 1px solid var(--rule-strong);
-    border-bottom: 0;
-    border-radius: 12px 12px 0 0;
+  :root:not([data-theme="light"]) .shot-dark {
+    display: block;
   }
 }
 
