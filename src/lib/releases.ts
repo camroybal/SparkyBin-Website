@@ -18,9 +18,9 @@ export interface Release {
  * builds without a network or when the rate limit is hit.
  */
 export const FALLBACK_RELEASE: Release = {
-  tag: "v0.1",
-  version: "0.1",
-  url: `${RELEASES_URL}/tag/v0.1`,
+  tag: "v0.2",
+  version: "0.2",
+  url: `${RELEASES_URL}/tag/v0.2`,
   published: null,
   prerelease: false,
   assets: [],

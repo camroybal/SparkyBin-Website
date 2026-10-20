@@ -82,6 +82,31 @@ import { REPO_URL, UPSTREAM_URL, ISSUES_URL } from "../lib/releases";
           bookmarks or extensions.
         </p>
         <p class="mt-3">
+          The extension work did not stop at the first release. A set of well
+          known extensions was installed and run to see how far each one got,
+          and four of them took the whole browser down. Five faults were
+          found and fixed, and the calls that extensions were asking for and
+          not getting are there now: whether the extension has a permission,
+          the events for the browser starting and for the extension being
+          installed, the title and the icon of a button, and the events that
+          say what a tab is doing.
+        </p>
+        <p class="mt-3">
+          An ad blocker can be used now. WebKit has no way to let an
+          extension stop a request by itself, so the browser compiles the
+          filter lists that come with an extension into the rules that
+          WebKit's content blockers understand, and puts them on the pages.
+          It is the arrangement Safari uses, and it is what makes the whole
+          of uBlock Origin's list of filters work here.
+        </p>
+        <p class="mt-3">
+          The sidebar shows either the bookmarks or the open tabs, with a
+          switch at the top of it, and the groups of bookmarks are the user's
+          to choose and order. There are fifteen colour palettes to pick
+          from, named after the projects they come from, and the browser
+          keeps its own sizes so that a theme cannot squash it.
+        </p>
+        <p class="mt-3">
           The extension code is not finished. Manifest V3 is not supported,
           <code class="font-mono text-sm">storage.onChanged</code> is missing,
           and the architecture write-up in the repository says what is known
@@ -92,10 +117,10 @@ import { REPO_URL, UPSTREAM_URL, ISSUES_URL } from "../lib/releases";
       <div>
         <h2 class="font-display text-xl font-semibold text-ink">Where it is going</h2>
         <p class="mt-3">
-          0.1 is the first release of SparkyBin Browser. It is a working browser
-          with the fixes in it, not a finished product, and the icon and the
-          screenshots are still placeholders. The plan for what comes next is
-          in
+          0.2 is the second release. It is a working browser, not a finished
+          product: an extension that uses a service worker does nothing yet,
+          because Manifest V3 is not supported. The plan for what comes next
+          is in
           <a class="text-accent hover:underline" href={`${REPO_URL}/blob/main/PLAN.md`}>PLAN.md</a>
           in the repository.
         </p>
