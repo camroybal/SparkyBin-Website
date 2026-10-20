@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The SparkyBin Browser mark. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#3f7ae0"/>
+      <stop offset="1" stop-color="#172a72"/>
+    </linearGradient>
+    <clipPath id="lit">
+      <path d="M 22.90 10.29 L 150.00 -10.00 L 39.21 56.25 Z"/>
+    </clipPath>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="14" ry="14" fill="url(#bg)"/>
+  <circle cx="32.0" cy="32.0" r="12.25" fill="none" stroke="#ffffff" stroke-width="1.15" stroke-opacity="0.45"/>
+  <path d="M 22.90 10.29 L 23.89 41.34 L 34.54 33.88 L 39.21 56.25 L 40.60 19.87 L 29.95 27.33 Z" fill="#ffffff" fill-opacity="0.42"/>
+  <path d="M 22.90 10.29 L 23.89 41.34 L 34.54 33.88 L 39.21 56.25 L 40.60 19.87 L 29.95 27.33 Z" fill="#ffffff" clip-path="url(#lit)"/>
+</svg>

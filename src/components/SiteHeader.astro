@@ -1,5 +1,6 @@
 ---
 import { PRODUCTS } from "../lib/products";
+import mark from "../assets/mark.svg";
 import { currentRoute, siteUrl } from "../lib/urls";
 
 const links = [
@@ -25,10 +26,7 @@ const path = currentRoute(Astro.url.pathname, import.meta.env.BASE_URL);
       href={siteUrl("/")}
       class="flex items-center gap-2.5 font-display text-[0.95rem] font-semibold tracking-tight"
     >
-      <span
-        class="grid size-7 place-items-center rounded-[7px] bg-ink text-[0.7rem] font-bold text-bg"
-        aria-hidden="true">SB</span
-      >
+      <img src={mark.src} alt="" width="28" height="28" class="size-7 rounded-[7px]" />
       <span>SparkyBin</span>
     </a>
 
