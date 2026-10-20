@@ -14,7 +14,9 @@ export default defineConfig({
   base,
   trailingSlash: "never",
   build: {
-    format: "directory",
+    // One file per page, so that the URLs have no trailing slash and
+    // GitHub Pages serves them without a redirect.
+    format: "file",
   },
   vite: {
     plugins: [tailwindcss()],
