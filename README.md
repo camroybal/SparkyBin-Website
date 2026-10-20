@@ -35,6 +35,31 @@ and `SITE_URL`, which is how the site is built for the project path on
 SITE_BASE=/SparkyBin-site SITE_URL=https://camroybal.github.io/SparkyBin-site npm run build
 ```
 
+### The DNS
+
+| Type | Name | Data |
+| --- | --- | --- |
+| A | `@` | `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153` |
+| AAAA | `@` | `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153` |
+| CNAME | `www` | `camroybal.github.io` |
+
+The A records are kept rather than a single ALIAS, because an ALIAS takes
+over the whole domain and would stop an MX record from being added later.
+
+### The certificate
+
+GitHub issues the certificate for the domain some time after the DNS starts
+pointing at it, which can be minutes or can be most of a day. Until it does,
+the site is served over HTTP with the default `*.github.io` certificate, and
+browsers will refuse it.
+
+`tools/wait-for-https.sh` waits for the right certificate to appear and then
+turns on the HTTPS redirect:
+
+```sh
+tools/wait-for-https.sh sparkybin.com camroybal/SparkyBin-Website
+```
+
 ## Layout
 
 ```
